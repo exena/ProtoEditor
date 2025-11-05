@@ -1,7 +1,7 @@
 import './editor.css'
 import {EditorState} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
-import {Schema, DOMParser} from "prosemirror-model"
+import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
 import {schema} from "prosemirror-schema-basic"
 import {addListNodes} from "prosemirror-schema-list"
 import {exampleSetup} from "prosemirror-example-setup"
@@ -11,11 +11,23 @@ import {exampleSetup} from "prosemirror-example-setup"
 const mySchema = new Schema({
   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
   marks: schema.spec.marks
-})
+});
 
-new EditorView(document.querySelector("#editor"), {
+const serializer = DOMSerializer.fromSchema(mySchema);
+
+const editorView = new EditorView(document.querySelector("#editor"), {
   state: EditorState.create({
     doc: DOMParser.fromSchema(mySchema).parse(document.querySelector("#content")!),
     plugins: exampleSetup({schema: mySchema})
-  })
-})
+  }),
+  dispatchTransaction(transaction) {
+    let newState = editorView.state.apply(transaction)
+    editorView.updateState(newState)
+    const fragment = serializer.serializeFragment(editorView.state.doc.content);
+    const tempDiv = document.createElement("div");
+    tempDiv.appendChild(fragment);
+    const htmlString = tempDiv.innerHTML;
+    const content = document.querySelector("#content")!;
+    content.innerHTML = htmlString;
+  }
+});

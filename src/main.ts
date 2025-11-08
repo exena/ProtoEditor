@@ -8,8 +8,10 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { textColorMark } from "./textColorMark";
 import { createTextColorComponents } from "./createTextColorComponents";
+import { createImageUploadMenuComponents } from './createImageUploadMenuComponents';
 
 const { textColorItem, palleteSyncPlugin, buttonSyncPlugin } = createTextColorComponents();
+const { imageUploadMenuItem, placeholderPlugin} = createImageUploadMenuComponents();
 
 // 1️⃣ 스키마 확장
 const mySchema = new Schema({
@@ -20,7 +22,7 @@ const mySchema = new Schema({
 
 // 2️⃣ MenuItem 생성 및 추가
 const menu = buildMenuItems(mySchema);
-menu.inlineMenu[0].push(textColorItem);
+menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);
 
 // 3️⃣ 초기 문서 파싱
 const contentElement = document.querySelector("#content") as HTMLTextAreaElement;
@@ -34,6 +36,7 @@ const state = EditorState.create({
     ...exampleSetup({ schema: mySchema, menuContent: menu.fullMenu }),
     palleteSyncPlugin,
     buttonSyncPlugin,
+    placeholderPlugin,
   ],
 });
 

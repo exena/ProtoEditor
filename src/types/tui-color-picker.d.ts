@@ -2,18 +2,20 @@ declare module 'tui-color-picker' {
   interface ColorPickerOptions {
     container: HTMLElement;
     color?: string;
+    preset?: string[];
+    usageStatistics?: boolean;
+    cssPrefix?: string;
+    detailTxt?: string;
   }
 
   interface SelectedColorInfo {
     color: string;
-    origin: 'palette' | 'manual' | string;
+    origin?: string;
   }
 
+  type SelectColorHandler = (info: SelectedColorInfo | string) => void;
+
   export default class ColorPicker {
-    // static create(options: ColorPickerOptions): ColorPicker;
-    // on(event: 'selectColor', callback: (colorInfo: SelectedColorInfo) => void): void;
-    // getColor(): string;
-    // setColor(color: string): void;
     constructor(options: ColorPickerOptions);
     static create(options: ColorPickerOptions): ColorPicker;
 

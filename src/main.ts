@@ -53,7 +53,7 @@ const editorView = new EditorView(document.querySelector("#editor"), {
     const tempDiv = document.createElement("div");
     tempDiv.appendChild(fragment);
 
-    // ② textarea에 반영
+    // ② input에 반영
     const htmlString = tempDiv.innerHTML;
     contentElement.value = htmlString;
   },

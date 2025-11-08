@@ -2,6 +2,9 @@
 import { Plugin } from 'prosemirror-state';
 import type ColorPicker from 'tui-color-picker';
 
+/**
+ * selection이 바뀔 때 ColorPicker의 색상을 자동으로 동기화하는 플러그인
+ */
 export const createTextColorSyncPlugin = (colorPicker: ColorPicker) =>
   new Plugin({
     view(editorView) {
@@ -22,7 +25,11 @@ export const createTextColorSyncPlugin = (colorPicker: ColorPicker) =>
           });
 
           if (color) {
-            colorPicker.setColor(color);
+            try {
+              colorPicker.setColor(color);
+            } catch {
+              // 일부 버전의 tui-color-picker는 setColor 인자 형태가 다를 수 있음
+            }
           }
         },
       };

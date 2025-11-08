@@ -3,13 +3,13 @@ import 'tui-color-picker/dist/tui-color-picker.css'
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { DOMParser as ProseMirrorDOMParser, DOMSerializer } from 'prosemirror-model';
-import { exampleSetup } from 'prosemirror-example-setup';
-import ColorPicker from 'tui-color-picker';
+import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { textColorMark } from "./textColorMark";
-import { createTextColorSyncPlugin } from './textColorSyncPlugin';
-import { setTextColor } from './setTextColor';
+import { createTextColorComponents } from "./createTextColorComponents";
+
+const { textColorItem, palleteSyncPlugin, buttonSyncPlugin } = createTextColorComponents();
 
 // 1️⃣ 스키마 확장
 const mySchema = new Schema({
@@ -17,11 +17,10 @@ const mySchema = new Schema({
   marks: basicSchema.spec.marks.addToEnd("textColor", textColorMark),
 });
 
-// 2️⃣ ColorPicker 초기화
-const colorPicker = ColorPicker.create({
-  container: document.getElementById('color-picker')!,
-  color: '#000000',
-});
+
+// 2️⃣ MenuItem 생성 및 추가
+const menu = buildMenuItems(mySchema);
+menu.inlineMenu[0].push(textColorItem);
 
 // 3️⃣ 초기 문서 파싱
 const contentElement = document.querySelector("#content") as HTMLTextAreaElement;
@@ -32,8 +31,9 @@ const doc = parser.parse(new window.DOMParser().parseFromString(contentElement.v
 const state = EditorState.create({
   doc,
   plugins: [
-    ...exampleSetup({ schema: mySchema }),
-    createTextColorSyncPlugin(colorPicker),
+    ...exampleSetup({ schema: mySchema, menuContent: menu.fullMenu }),
+    palleteSyncPlugin,
+    buttonSyncPlugin,
   ],
 });
 
@@ -54,10 +54,4 @@ const editorView = new EditorView(document.querySelector("#editor"), {
     const htmlString = tempDiv.innerHTML;
     contentElement.value = htmlString;
   },
-});
-
-// 6️⃣ ColorPicker 이벤트 연결
-colorPicker.on('selectColor', (colorInfo) => {
-  const color = colorInfo.color; // { color, origin } 중 color만 사용
-  setTextColor(color)(editorView.state, editorView.dispatch);
 });

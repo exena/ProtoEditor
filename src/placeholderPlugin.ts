@@ -1,5 +1,5 @@
 import { Plugin, PluginKey } from "prosemirror-state";
-import { Decoration, DecorationSet } from "prosemirror-view";
+import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { EditorState } from 'prosemirror-state';
 
 export const placeholderPluginKey = new PluginKey<DecorationSet>("image-upload-placeholder");
@@ -40,7 +40,7 @@ export const placeholderPlugin = new Plugin<DecorationSet>({
 /**
  * placeholderPluginKey로부터 특정 ID의 placeholder 위치를 찾는 함수
  */
-export function findPlaceholder(
+function findPlaceholder(
   state: EditorState,
   id: unknown
 ): number | null {
@@ -49,4 +49,36 @@ export function findPlaceholder(
 
   const found = decos.find(undefined, undefined, (spec: any) => spec.id === id);
   return found.length ? found[0].from : null;
+}
+
+// Placeholder 삽입
+export function insertPlaceholder(view: EditorView, id: any) {
+  const { state, dispatch } = view;
+  const tr = state.tr.setMeta(placeholderPluginKey, {
+    add: { id, pos: view.state.selection.from },
+  });
+  dispatch(tr);
+}
+
+// Placeholder → 이미지로 교체
+export function replacePlaceholderWithImage(view: EditorView, id: any, uploadedUrl: string) {
+  const { state, dispatch } = view;
+  const pos = findPlaceholder(state, id);
+
+  // 업로드 완료 후 placeholder 위치 찾기
+  if (pos == null) return;
+
+  // 진짜 이미지로 교체
+  const tr = state.tr.replaceWith(
+    pos,
+    pos,
+    state.schema.nodes.image.create({ src: uploadedUrl })
+  );
+  tr.setMeta(placeholderPluginKey, { remove: { id } });
+  dispatch(tr);
+}
+
+export function removePlaceholders(view: EditorView, id: any){
+    const { state, dispatch } = view;
+    dispatch(state.tr.setMeta(placeholderPluginKey, { remove: { id } }));
 }

@@ -1,12 +1,38 @@
 import { MenuItem } from "prosemirror-menu";
-import { placeholderPlugin, insertPlaceholder, replacePlaceholderWithImage, removePlaceholders } from "./placeholderPlugin";
+import { placeholderPlugin, insertPlaceholder, replacePlaceholderWithImage, removePlaceholder } from "./placeholderPlugin";
 import type { EditorView } from "prosemirror-view";
 
 /**
  * 파일을 업로드하고 URL을 반환하는 함수
  */
 async function uploadImageFile(file: File): Promise<string> {
-  // 예시: 실제 구현에서는 fetch()로 서버 업로드
+  // 외부에서 업로드용 URL이 지정되어 있으면 fetch 사용
+  const uploadUrl = (window as any).uploadImageUrl;
+
+  if (typeof uploadUrl === "string" && uploadUrl.length > 0) {
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`이미지 업로드 실패 (status ${response.status})`);
+    }
+
+    const result = await response.json();
+
+    // 서버에서 { url: "..."} 형태로 응답한다고 가정
+    if (result.url) {
+      return result.url;
+    } else {
+      throw new Error("응답에 이미지 URL이 없습니다.");
+    }
+  }
+
+  // 기본 mock 동작 (fetch 미사용)
   return new Promise((resolve) => {
     setTimeout(() => {
       const mockUrl = URL.createObjectURL(file); // 임시 blob URL
@@ -15,32 +41,65 @@ async function uploadImageFile(file: File): Promise<string> {
   });
 }
 
-function triggerImageFileInput(view: EditorView) {
+function handleImageUpload(event: Event, view: EditorView) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  // 1️⃣ placeholder 추가
+  const id = {}; // id 역할을 하는 객체
+  insertPlaceholder(view, id);
+
+  // 2️⃣ 파일 업로드 시작 (비동기)
+  uploadImageFile(file).then((uploadedUrl) => {
+    replacePlaceholderWithImage(view, id, uploadedUrl);
+  }, () => {
+    // 실패시 placeholder 지우기
+    removePlaceholder(view, id);
+  });
+}
+
+function triggerImageFileInputUpload(view: EditorView) {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
   input.style.display = "none";
 
   input.addEventListener("change", async (event) => {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-
-    // 1️⃣ placeholder 추가
-    const id = {}; // id 역할을 하는 객체
-    insertPlaceholder(view, id);
-
-    // 2️⃣ 파일 업로드 시작 (비동기)
-    uploadImageFile(file).then((uploadedUrl) => {
-      replacePlaceholderWithImage(view, id, uploadedUrl);
-    }, () => {
-      // 실패시 placeholder 지우기
-      removePlaceholders(view, id);
-    });
+    handleImageUpload(event, view)
   });
 
   // 버튼 클릭시 화면에 나타나지 않는 input의 클릭 트리거를 작동시킴
   // 브라우저 보안 정책상 사용자 클릭 이벤트의 콜백(현재 함수) 내에서만 호출 가능
   input.click();
+}
+
+// 외부에서 이미지 업로드하면서 메시지 이벤트를 보내주면 받기 위한 함수
+// MenuItem.run에서 참조할 외부 팝업 오픈 함수 예시:
+// window.openPopupImageUpload = function () {
+//   window.open("/image-upload-popup", "이미지 업로드", "width=600,height=400");
+// };
+// 팝업 쪽에서 업로드 상태 전송 예시:
+// window.opener.postMessage({ status: "uploading", id }, "*");
+// window.opener.postMessage({ status: "done", url, id }, "*");
+function setupImageUploadMessageListener(view: EditorView) {
+  window.addEventListener("message", async (event) => {
+    if (event.origin !== window.location.origin) return;
+
+    const { status, uploadedUrl, placeholderId } = event.data;
+    if (!status) return;
+
+    if (status === "uploading") {
+      // 1️⃣ placeholder 추가
+      if (!placeholderId) return;
+      insertPlaceholder(view, placeholderId);
+    }
+
+    if (status === "done") {
+      // 2️⃣ 이미지 노드로 교체
+      if (!uploadedUrl || !placeholderId) return;
+      replacePlaceholderWithImage(view, placeholderId, uploadedUrl);
+    }
+  });
 }
 
 export function createImageUploadMenuComponents() {
@@ -51,7 +110,16 @@ export function createImageUploadMenuComponents() {
 
     // ✅ run이 있어야 MenuItemSpec 타입이 맞음
     run(state, dispatch, view) {
-      triggerImageFileInput(view);
+      // 1️⃣ 외부에 window.openPopupImageUpload 함수가 정의되어 있으면 그걸 실행
+      if (typeof (window as any).openPopupImageUpload === "function") {
+        // 외부에서 들어올 메시지를 받는 리스너 추가
+        setupImageUploadMessageListener(view);
+        (window as any).openPopupImageUpload();
+        return;
+      }
+
+      // 2️⃣ 없다면 기본 업로드 트리거 사용
+      triggerImageFileInputUpload(view);
     },
   });
 

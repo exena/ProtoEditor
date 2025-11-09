@@ -78,7 +78,7 @@ export function replacePlaceholderWithImage(view: EditorView, id: any, uploadedU
   dispatch(tr);
 }
 
-export function removePlaceholders(view: EditorView, id: any){
+export function removePlaceholder(view: EditorView, id: any){
     const { state, dispatch } = view;
     dispatch(state.tr.setMeta(placeholderPluginKey, { remove: { id } }));
 }

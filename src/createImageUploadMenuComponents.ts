@@ -8,12 +8,15 @@ import type { EditorView } from "prosemirror-view";
 async function uploadImageFile(file: File): Promise<string> {
   // 외부에서 업로드용 URL이 지정되어 있으면 fetch 사용
   const uploadUrl = (window as any).uploadImageUrl;
+  const uploadHeader = (window as any).uploadImageHeader;
+  const uploadRequestParam = (window as any).uploadImageRequestParam;
 
-  if (typeof uploadUrl === "string" && uploadUrl.length > 0) {
+  if (typeof uploadRequestParam === "string" && typeof uploadUrl === "string" && uploadUrl.length > 0) {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append(uploadRequestParam, file);
     
     const response = await fetch(uploadUrl, {
+      headers: uploadHeader,
       method: "POST",
       body: formData,
     });
@@ -22,11 +25,12 @@ async function uploadImageFile(file: File): Promise<string> {
       throw new Error(`이미지 업로드 실패 (status ${response.status})`);
     }
 
-    const result = await response.json();
+    // 서버가 문자열로 URL을 반환하는 경우
+    const result = await response.text();
 
-    // 서버에서 { url: "..."} 형태로 응답한다고 가정
-    if (result.url) {
-      return result.url;
+    // 단순 문자열이면 그대로 리턴
+    if (typeof result === "string" && result.trim().length > 0) {
+      return result;
     } else {
       throw new Error("응답에 이미지 URL이 없습니다.");
     }
@@ -106,10 +110,10 @@ export function createImageUploadMenuComponents() {
   const imageUploadMenuItem = new MenuItem({
     title: "이미지 삽입",
     label: "🖼️ 이미지",
-    enable: (state) => true, // 항상 활성화
+    enable: (_state) => true, // 항상 활성화
 
     // ✅ run이 있어야 MenuItemSpec 타입이 맞음
-    run(state, dispatch, view) {
+    run(_state, _dispatch, view) {
       // 1️⃣ 외부에 window.openPopupImageUpload 함수가 정의되어 있으면 그걸 실행
       if (typeof (window as any).openPopupImageUpload === "function") {
         // 외부에서 들어올 메시지를 받는 리스너 추가

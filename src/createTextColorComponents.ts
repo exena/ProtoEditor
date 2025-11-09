@@ -40,7 +40,7 @@ export function createTextColorComponents() {
   // MenuItem 생성
   const textColorItem = new MenuItem({
     title: "텍스트 색상",
-    run(state, dispatch, view) {
+    run(_state, _dispatch, view) {
       // 버튼 위치에 따라 picker 띄우기: 메뉴는 내부적으로 버튼 DOM을 만든다.
       // view.dom은 에디터 전체 DOM. 찾은 iconSpan의 부모 버튼을 이용하려 시도.
       // (간단하고 안전한 방법: 툴바 버튼의 bounding rect를 기준으로 위치)
@@ -69,7 +69,7 @@ export function createTextColorComponents() {
         view.focus();
       });
     },
-    render(view: EditorView): HTMLElement {
+    render(_view: EditorView): HTMLElement {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "text-color-btn";

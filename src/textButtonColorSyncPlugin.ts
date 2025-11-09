@@ -5,7 +5,7 @@ import type ColorPicker from 'tui-color-picker';
 // =====================
 export const createTextButtonColorSyncPlugin = (colorPicker: ColorPicker) => 
   new Plugin({
-    view(view) {
+    view(_view) {
       // view()는 PluginView를 반환. 여기선 plugin-level data를 유지할 필요 없음.
       return {
         update(currentView, prevState) {

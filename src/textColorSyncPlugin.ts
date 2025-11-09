@@ -7,7 +7,7 @@ import type ColorPicker from 'tui-color-picker';
  */
 export const createTextColorSyncPlugin = (colorPicker: ColorPicker) =>
   new Plugin({
-    view(editorView) {
+    view(_editorView) {
       return {
         update(view, prevState) {
           // selection이 바뀌지 않으면 패스

@@ -7,14 +7,19 @@ import type { EditorView } from "prosemirror-view";
  */
 async function uploadImageFile(file: File): Promise<string> {
   // 외부에서 업로드용 URL이 지정되어 있으면 fetch 사용
-  const uploadUrl = (window as any).uploadImageUrl;
-  const uploadHeader = (window as any).uploadImageHeader;
-  const uploadRequestParam = (window as any).uploadImageRequestParam;
+  const uploadUrl = (window as any).uploadImageUrl; // 서버에서 이미지 업로드 요청을 받는 URL(필수)
+  const uploadHeader = (window as any).uploadImageHeader; // CSRF 토큰(옵션)
+  const uploadRequestParam = (window as any).uploadImageRequestParam; // 서버에서 formData 안의 파일을 읽을 때 쓰는 키(필수)
+  const uploadResponseKey = (window as any).uploadImageResponseKey; // JSON 응답 키(옵션)
 
-  if (typeof uploadRequestParam === "string" && typeof uploadUrl === "string" && uploadUrl.length > 0) {
+  if (
+    typeof uploadRequestParam === "string" &&
+    typeof uploadUrl === "string" &&
+    uploadUrl.length > 0
+  ) {
     const formData = new FormData();
     formData.append(uploadRequestParam, file);
-    
+
     const response = await fetch(uploadUrl, {
       headers: uploadHeader,
       method: "POST",
@@ -25,15 +30,29 @@ async function uploadImageFile(file: File): Promise<string> {
       throw new Error(`이미지 업로드 실패 (status ${response.status})`);
     }
 
-    // 서버가 문자열로 URL을 반환하는 경우
-    const result = await response.text();
+    const contentType = response.headers.get("content-type") || "";
 
-    // 단순 문자열이면 그대로 리턴
-    if (typeof result === "string" && result.trim().length > 0) {
-      return result;
+    let uploadedUrl: string;
+
+    if (contentType.includes("application/json")) {
+      const result = await response.json();
+
+      if (uploadResponseKey && typeof result === "object" && result[uploadResponseKey]) {
+        uploadedUrl = result[uploadResponseKey];
+      } else {
+        throw new Error("JSON 응답에 이미지 URL이 없습니다.");
+      }
     } else {
-      throw new Error("응답에 이미지 URL이 없습니다.");
+      // 단순 문자열 응답 처리
+      const result = await response.text();
+      if (typeof result === "string" && result.trim().length > 0) {
+        uploadedUrl = result.trim();
+      } else {
+        throw new Error("응답에 이미지 URL이 없습니다.");
+      }
     }
+
+    return uploadedUrl;
   }
 
   // 기본 mock 동작 (fetch 미사용)

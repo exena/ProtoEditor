@@ -83,8 +83,8 @@ function triggerImageFileInputUpload(view: EditorView) {
 //   window.open("/image-upload-popup", "이미지 업로드", "width=600,height=400");
 // };
 // 팝업 쪽에서 업로드 상태 전송 예시:
-// window.opener.postMessage({ status: "uploading", id }, "*");
-// window.opener.postMessage({ status: "done", url, id }, "*");
+// window.opener.postMessage({ status: "uploading", placeholderId: {} }, "*");
+// window.opener.postMessage({ status: "done", uploadedUrl: "...", placeholderId: {} }, "*");
 function setupImageUploadMessageListener(view: EditorView) {
   window.addEventListener("message", async (event) => {
     if (event.origin !== window.location.origin) return;

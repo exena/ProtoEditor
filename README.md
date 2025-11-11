@@ -16,7 +16,7 @@
 - [X]  PlayGround 같은 사이트에서 바로 사용해볼 수 있도록 만들기
 
 ### 미리보기
-[text](https://codesandbox.io/p/github/exena/ProtoEditor/main?import=true)
+[CodeSandbox](https://codesandbox.io/p/github/exena/ProtoEditor/main?import=true)
 
 ### 사용방법(CDN)
 1.

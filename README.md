@@ -4,7 +4,7 @@
 
 ### 기능 목록
 
-- [x]  POST 메서드로 글 submit하기
+- [x]  HTML로 내용 추출해서 글 submit하기
 - [x]  글자 색 변경
 - [ ]  폰트 크기 변경
 - [ ]  기울임
@@ -13,10 +13,10 @@
 - [ ]  취소선
 - [x]  이미지 삽입 구현하기
 - [x]  이미지 POST 메서드로 업로드하고 URL 받아오기
-- [X]  PlayGround 같은 사이트에서 바로 사용해볼 수 있도록 만들기
+- [X]  미리보기 사이트에서 바로 사용해볼 수 있도록 만들기
 
 ### 미리보기
-[CodeSandbox](https://codesandbox.io/p/github/exena/ProtoEditor/main?import=true)
+[CodeSandbox.io](https://codesandbox.io/p/github/exena/ProtoEditor/main?import=true)
 
 ### 사용방법(CDN)
 1.

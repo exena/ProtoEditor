@@ -170,7 +170,10 @@ img.ProseMirror-separator {
   position: relative;
   min-height: 1em;
   color: #666;
-  padding: 1px 6px;
+  padding: 0 15px;
+  height: 45px;
+  display: flex;               /* 🔥 Flexbox로 변경 */
+  align-items: center;         /* 수직 중앙 정렬 */
   top: 0; left: 0; right: 0;
   border-bottom: 1px solid silver;
   background: white;
@@ -181,21 +184,30 @@ img.ProseMirror-separator {
 }
 
 .ProseMirror-icon {
-  display: inline-block;
-  line-height: .8;
-  vertical-align: -2px; /* Compensate for padding */
-  padding: 2px 8px;
+  display: flex;               /* 🔥 Flexbox로 변경 */
+  align-items: center;         /* 수직 중앙 정렬 */
+  justify-content: center;     /* 수평 중앙 정렬 */
+  width: 32px;
+  height: 32px;
   cursor: pointer;
+  padding: 0;                  /* 가운데 정렬에 불필요한 패딩 제거 */
+  border-radius: 4px;          /* 선택사항: 둥근 버튼 느낌 */
+}
+
+.ProseMirror-icon:hover {
+  background: #f0f0f0;         /* hover 시 살짝 회색 배경 */
+}
+
+.ProseMirror-icon svg {
+  width: 18px;                 /* SVG 크기 통일 */
+  height: 18px;
+  fill: currentColor;          /* 텍스트 색상 따라감 */
 }
 
 .ProseMirror-menu-disabled.ProseMirror-icon {
   cursor: default;
 }
 
-.ProseMirror-icon svg {
-  fill: currentColor;
-  height: 1em;
-}
 
 .ProseMirror-icon span {
   vertical-align: text-top;
@@ -314,7 +326,6 @@ img.ProseMirror-separator {
   background-clip: padding-box;
   border-radius: 4px;
   border: 2px solid rgba(0, 0, 0, 0.2);
-  padding: 5px 0;
   margin-bottom: 23px;
 }
 

@@ -1,6 +1,7 @@
 # ProtoEditor
+<img width="1536" height="1024" alt="ChatGPT Image 2025년 11월 11일 오후 03_15_14" src="https://github.com/user-attachments/assets/57d0a2e6-bfcd-47bc-b39d-f6474f497f65" />
 
-- 글 작성에 사용하는 WYSIWYG 에디터입니다.
+글 작성에 사용하는 WYSIWYG 에디터입니다.
 
 ### 기능 목록
 

@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/types", "src/textColorMark.ts"]
+  "include": ["src", "src/types", "src/items/textColor/textColorMark.ts"]
 }

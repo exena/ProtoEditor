@@ -1,17 +1,14 @@
 import './editor.css'
+import './dropdown.css'
 import 'tui-color-picker/dist/tui-color-picker.css'
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { DOMParser as ProseMirrorDOMParser, DOMSerializer } from 'prosemirror-model';
-import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
+import { exampleSetup } from "prosemirror-example-setup";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import { textColorMark } from "./textColorMark";
-import { createTextColorComponents } from "./createTextColorComponents";
-import { createImageUploadMenuComponents } from './createImageUploadMenuComponents';
-
-const { textColorItem, palleteSyncPlugin, buttonSyncPlugin } = createTextColorComponents();
-const { imageUploadMenuItem, placeholderPlugin} = createImageUploadMenuComponents();
+import { textColorMark } from "./items/textColor/textColorMark";
+import { createCustomMenu } from "./menu/customMenu"
 
 // 1️⃣ 스키마 확장
 const mySchema = new Schema({
@@ -19,10 +16,8 @@ const mySchema = new Schema({
   marks: basicSchema.spec.marks.addToEnd("textColor", textColorMark),
 });
 
-
-// 2️⃣ MenuItem 생성 및 추가
-const menu = buildMenuItems(mySchema);
-menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);
+// 2️⃣ 커스텀 메뉴 구성
+const { customMenu, plugins } = createCustomMenu(mySchema);
 
 // 3️⃣ 초기 문서 파싱
 const contentElement = document.querySelector("#content") as HTMLTextAreaElement;
@@ -33,10 +28,8 @@ const doc = parser.parse(new window.DOMParser().parseFromString(contentElement.v
 const state = EditorState.create({
   doc,
   plugins: [
-    ...exampleSetup({ schema: mySchema, menuContent: menu.fullMenu }),
-    palleteSyncPlugin,
-    buttonSyncPlugin,
-    placeholderPlugin,
+    ...exampleSetup({ schema: mySchema, menuContent: customMenu }),
+    ...plugins
   ],
 });
 

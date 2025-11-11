@@ -9,7 +9,7 @@ import { createTextColorComponents } from "../items/textColor";
 import { createImageUploadMenuComponents } from "../items/imageUpload/imageUploadMenu";
 
 export function createCustomMenu(schema: Schema) {
-  const { marks, nodes } = schema;
+  const { marks } = schema;
 
   const bold = createBoldItem(marks.strong);
   const italic = createItalicItem(marks.em);

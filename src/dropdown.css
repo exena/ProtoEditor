@@ -41,3 +41,9 @@
 .pm-dropdown-item:hover {
   background: #eee;
 }
+
+.pm-dropdown-button svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}

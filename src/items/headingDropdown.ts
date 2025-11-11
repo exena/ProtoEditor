@@ -25,7 +25,7 @@ export function createHeadingDropdown(
   return new MenuItem({
     title: "Heading",
     label: "H",
-    enable: (state) => true,
+    enable: (_state) => true,
     run(_state, _dispatch, _view) {},
     render(view) {
       const wrap = document.createElement("div");

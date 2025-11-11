@@ -8,7 +8,7 @@ export function createStrikeItem(strikeMark: MarkType) {
     label: "S̶",
     run: toggleMark(strikeMark),
     enable: (state) => toggleMark(strikeMark)(state),
-    render: (view) => {
+    render: (_view) => {
       const dom = document.createElement("div");
       dom.className = "ProseMirror-icon";
       dom.title = "Toggle Strikethrough";

@@ -8,7 +8,7 @@ export function createItalicItem(emMark: MarkType) {
     // label: "I",
     run: toggleMark(emMark),
     enable: (state) => toggleMark(emMark)(state),
-    render: (view) => {
+    render: (_view) => {
       const dom = document.createElement("div");
       dom.className = "ProseMirror-icon";
       dom.title = "Toggle Italic";

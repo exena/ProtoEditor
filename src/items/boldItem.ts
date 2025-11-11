@@ -8,7 +8,7 @@ export function createBoldItem(strongMark: MarkType) {
     // label: "B",
     run: toggleMark(strongMark),
     enable: (state) => toggleMark(strongMark)(state),
-    render: (view) => {
+    render: (_view) => {
       const dom = document.createElement("div");
       dom.className = "ProseMirror-icon";
       dom.title = "Toggle bold";

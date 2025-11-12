@@ -5,7 +5,7 @@ import { MarkType } from "prosemirror-model";
 export function createStrikeItem(strikeMark: MarkType) {
   return new MenuItem({
     title: "Toggle strikethrough",
-    label: "S̶",
+    // label: "S̶",
     run: toggleMark(strikeMark),
     enable: (state) => toggleMark(strikeMark)(state),
     render: (_view) => {

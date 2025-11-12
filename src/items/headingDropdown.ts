@@ -41,7 +41,7 @@ export function createHeadingDropdown(
       const updateButtonLabel = () => {
         const level = getActiveHeadingLevel(view.state);
         // button.textContent = level ? `H${level} ▼` : "본문 ▼";
-        button.style.color = level ? "blue" : "currentColor";
+        button.style.color = level ? "black" : "currentColor";
       };
       updateButtonLabel();
 

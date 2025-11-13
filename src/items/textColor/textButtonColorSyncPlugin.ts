@@ -1,11 +1,11 @@
-import { Plugin } from 'prosemirror-state';
+import { Plugin, PluginView } from 'prosemirror-state';
 import type ColorPicker from 'tui-color-picker';
 // =====================
 // Plugin: selection 변경 감지 → 버튼 색 업데이트 / colorPicker.setColor
 // =====================
 export const createTextButtonColorSyncPlugin = (colorPicker: ColorPicker) => 
   new Plugin({
-    view(_view) {
+    view(_view): PluginView {
       // view()는 PluginView를 반환. 여기선 plugin-level data를 유지할 필요 없음.
       return {
         update(currentView, prevState) {

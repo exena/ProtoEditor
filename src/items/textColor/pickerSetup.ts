@@ -1,5 +1,4 @@
 import ColorPicker from "tui-color-picker";
-import "tui-color-picker/dist/tui-color-picker.css";
 
 export function createPicker() {
   const pickerContainer = document.createElement("div");

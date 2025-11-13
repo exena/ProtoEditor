@@ -3,7 +3,7 @@
  */
 import { fireEvent } from "@testing-library/dom";
 import { createTextColorButton } from "../../../src/items/textColor/button";
-import { setupEditorForTest, createHiddenContainer } from "../../utils/setUpEditorForTest";
+import { setupEditorForTextColorTest, createHiddenContainer } from "../../utils/setUpEditorForTextColorTest";
 
 describe("TextColorButton", () => {
   let view: any;
@@ -12,7 +12,7 @@ describe("TextColorButton", () => {
   let colorPickerMock: any;
 
   beforeEach(() => {
-    const setup = setupEditorForTest();
+    const setup = setupEditorForTextColorTest();
     view = setup.view;
     cleanup = setup.cleanup;
 

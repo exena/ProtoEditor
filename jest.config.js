@@ -6,5 +6,5 @@ export default {
   transform: {
     "^.+\\.(t|j)sx?$": "ts-jest",
   },
-  setupFilesAfterEnv: ["<rootDir>/tests/utils/setupEditorForTest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/tests/utils/setupEditorForTextColorTest.ts"],
 };

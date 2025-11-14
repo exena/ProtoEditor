@@ -7,13 +7,14 @@ import { DOMParser as ProseMirrorDOMParser, DOMSerializer } from 'prosemirror-mo
 import { exampleSetup } from "prosemirror-example-setup";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import { textColorMark } from "./items/textColor/textColorMark";
+import { textColorMark } from "./marks/textColorMark";
 import { createCustomMenu } from "./menu/customMenu"
+import { strikeMark } from './marks/strikeMark';
 
 // 1️⃣ 스키마 확장
 const mySchema = new Schema({
   nodes: basicSchema.spec.nodes,
-  marks: basicSchema.spec.marks.addToEnd("textColor", textColorMark),
+  marks: basicSchema.spec.marks.addToEnd("textColor", textColorMark).addToEnd("strike", strikeMark),
 });
 
 // 2️⃣ 커스텀 메뉴 구성

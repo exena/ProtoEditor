@@ -17,4 +17,6 @@ test("clicking text color button opens color picker", () => {
   fireEvent.mouseDown(button);
 
   expect(picker.style.display).toBe("block");
+  expect(colorPicker.on).toHaveBeenCalled();
+  expect(colorPicker.off).toHaveBeenCalled();
 });

@@ -1,37 +1,27 @@
-/**
- * @jest-environment jsdom
- */
 import { EditorState, Plugin, TextSelection } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createTextButtonColorSyncPlugin } from "../../../src/items/textColor/textButtonColorSyncPlugin";
+import { createTextColorSyncPlugin } from "../../../src/items/textColor/textColorSyncPlugin";
 import { testTextSchema } from "../../utils/setUpEditorForTextColorTest";
 
-describe("createTextButtonColorSyncPlugin", () => {
+describe("createTextColorSyncPlugin", () => {
   let colorPickerMock: any;
-  let plugin: Plugin;
-  let button: HTMLElement;
   let view: EditorView;
+  let container: HTMLElement;
+  let plugin: Plugin;
 
   beforeEach(() => {
-    // --- colorPicker mock
     colorPickerMock = { setColor: jest.fn() };
-
-    // --- 테스트용 버튼 DOM 추가
-    button = document.createElement("span");
-    button.dataset.textColorButton = "true";
-    button.style.color = "#00ff00";
-    // 식별자: 플러그인에서 버튼을 찾기 위해 data 속성 추가
-    button.setAttribute("data-text-color-button", "1");
-    document.body.appendChild(button);
+    container = document.createElement("div");
+    document.body.appendChild(container);
 
     // --- plugin 생성
-    plugin = createTextButtonColorSyncPlugin(colorPickerMock);
+    plugin = createTextColorSyncPlugin(colorPickerMock);
 
     // --- 초기 상태 (검정 텍스트)
     const state = EditorState.create({
-      schema: testTextSchema,
-      doc: testTextSchema.node("doc", null, [testTextSchema.text("hello world")]),
-      plugins: [plugin],
+        schema: testTextSchema,
+        doc: testTextSchema.node("doc", null, [testTextSchema.text("hello world")]),
+        plugins: [plugin],
     });
 
     // --- 뷰 생성
@@ -41,11 +31,11 @@ describe("createTextButtonColorSyncPlugin", () => {
   });
 
   afterEach(() => {
-    view.destroy();
+    if (view) view.destroy();
     document.body.innerHTML = "";
   });
 
-  it("selection 이동 시 textColor 마크가 있으면 버튼 색과 colorPicker를 업데이트한다", () => {
+  test("selection이 바뀌면 textColor 마크의 색상이 colorPicker에 동기화된다", () => {
     // --- 새 문서: "he"만 빨간색
     const redText = testTextSchema.text("he", [testTextSchema.mark("textColor", { color: "rgb(255, 0, 0)" })]);
     const restText = testTextSchema.text("llo world");
@@ -67,17 +57,15 @@ describe("createTextButtonColorSyncPlugin", () => {
     view.updateState(newState);
     pluginView.update!(view, oldstate);   // selection 변경 전달
 
-    // --- 검증
-    const button = document.querySelector("[data-text-color-button]") as HTMLElement;
-    expect(button.style.color).toBe("rgb(255, 0, 0)"); // 버튼 색 업데이트 확인
-    expect(colorPickerMock.setColor).toHaveBeenCalledWith("rgb(255, 0, 0)"); // colorPicker 동기화 확인
+    // colorPicker.setColor가 올바르게 호출되었는지 확인
+    expect(colorPickerMock.setColor).toHaveBeenCalledWith("rgb(255, 0, 0)");
   });
 
-  it("selection이 동일하면 아무 동작도 하지 않는다", () => {
-    const prevState = view.state;
-
+  test("selection이 안 바뀌면 setColor가 호출되지 않는다", () => {
     const pluginView = plugin.spec.view!(view);
-    pluginView.update!(view, prevState); // 동일 selection
+
+    // selection이 바뀌지 않은 상태로 update 호출
+    pluginView.update!(view, view.state);
 
     expect(colorPickerMock.setColor).not.toHaveBeenCalled();
   });

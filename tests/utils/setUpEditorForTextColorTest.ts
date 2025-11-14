@@ -24,33 +24,6 @@ export const testTextSchema = new Schema({
   },
 });
 
-export const testBlockNodeSchema = new Schema({
-  nodes: {
-    doc: { content: "block+" },
-    text: { group: "inline" },
-    paragraph: {
-      content: "inline*",
-      group: "block",
-      parseDOM: [{ tag: "p" }],
-      toDOM: () => ["p", 0],
-    },
-  },
-  marks: {
-    textColor: {
-      attrs: { color: {} },
-      parseDOM: [
-        {
-          style: "color",
-          getAttrs: (value) => ({ color: value }),
-        },
-      ],
-      toDOM(mark) {
-        return ["span", { style: `color: ${mark.attrs.color}` }, 0];
-      },
-    },
-  },
-});
-
 /**
  * 테스트용 ProseMirror EditorView를 설정하고 반환합니다.
  * jsdom 환경에서 실제 DOM에 mount되어 동작합니다.
@@ -62,8 +35,8 @@ export function setupEditorForTextColorTest() {
 
   // 상태 생성
   const state = EditorState.create({
-    schema: testBlockNodeSchema,
-    doc: PMDOMParser.fromSchema(testBlockNodeSchema).parse(document.createElement("div")),
+    schema: testTextSchema,
+    doc: PMDOMParser.fromSchema(testTextSchema).parse(document.createElement("div")),
   });
 
   // EditorView 생성

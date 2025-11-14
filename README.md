@@ -1,5 +1,5 @@
 # ProtoEditor
-<img width="593" height="125" alt="Design-Editor-11-14-2025_06_43_PM" src="https://github.com/user-attachments/assets/a6d454fd-9139-4b47-9fd0-5aea5bad2614" />
+<img width="593" height="106" alt="Design-Editor-11-14-2025_06_50_PM" src="https://github.com/user-attachments/assets/d5d262fb-1707-4dc6-a459-f968bd63b6fb" />
 
 글 작성에 사용하는 WYSIWYG 에디터입니다.
 

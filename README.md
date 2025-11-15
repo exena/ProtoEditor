@@ -60,5 +60,6 @@ window.openPopupImageUpload
 
 ### 사용된 라이브러리
 [TOAST UI ColorPicker](https://github.com/nhn/tui.color-picker)
+
 [ProseMirror](https://prosemirror.net/)
 

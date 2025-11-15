@@ -4,7 +4,7 @@ import { MarkType } from "prosemirror-model";
 
 export function createItalicItem(emMark: MarkType) {
   return new MenuItem({
-    title: "Toggle italic",
+    title: "기울임",
     // label: "I",
     run: toggleMark(emMark),
     enable: (state) => toggleMark(emMark)(state),

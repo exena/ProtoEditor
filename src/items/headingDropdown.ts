@@ -23,7 +23,7 @@ export function createHeadingDropdown(
   }
 
   return new MenuItem({
-    title: "Heading",
+    title: "헤딩",
     label: "H",
     enable: (_state) => true,
     run(_state, _dispatch, _view) {},

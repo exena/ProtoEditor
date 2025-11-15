@@ -4,7 +4,7 @@ import { MarkType } from "prosemirror-model";
 
 export function createBoldItem(strongMark: MarkType) {
   return new MenuItem({
-    title: "Toggle bold",
+    title: "굵게",
     // label: "B",
     run: toggleMark(strongMark),
     enable: (state) => toggleMark(strongMark)(state),

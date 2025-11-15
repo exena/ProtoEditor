@@ -73,8 +73,13 @@ img.ProseMirror-separator {
 }
 
 .ProseMirror-menuseparator {
-  border-right: 1px solid #ddd;
-  margin-right: 3px;
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 21px;
+  background: #ddd;
+  margin-right: 8px;
+  
 }
 
 .ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-menu {

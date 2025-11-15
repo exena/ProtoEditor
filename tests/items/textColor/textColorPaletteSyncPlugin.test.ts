@@ -3,7 +3,7 @@
  */
 import { EditorState, Plugin, TextSelection } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createTextColorPaletteSyncPlugin } from "../../../src/items/textColor/textColorPaletteSyncPlugin";
+import { createTextColorPaletteSyncPlugin } from "../../../src/plugin/textColorPaletteSyncPlugin";
 import { testTextSchema } from "../../utils/setUpEditorForTextColorTest";
 
 describe("createTextColorPaletteSyncPlugin", () => {

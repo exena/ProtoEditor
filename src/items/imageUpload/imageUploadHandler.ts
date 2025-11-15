@@ -1,5 +1,5 @@
 import type { EditorView } from "prosemirror-view";
-import { insertPlaceholder, replacePlaceholderWithImage, removePlaceholder } from "./placeholderPlugin";
+import { insertPlaceholder, replacePlaceholderWithImage, removePlaceholder } from "../../plugin/placeholderPlugin";
 import { uploadImageFile } from "./uploadImageFile";
 
 export function handleImageUpload(event: Event, view: EditorView) {

@@ -1,6 +1,6 @@
-import './editor.css'
-import './dropdown.css'
-import './table.css'
+import './css/editor.css'
+import './css/dropdown.css'
+import './css/table.css'
 import 'tui-color-picker/dist/tui-color-picker.css'
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';

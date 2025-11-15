@@ -1,5 +1,5 @@
 import type { EditorView } from "prosemirror-view";
-import { insertPlaceholder, replacePlaceholderWithImage } from "./placeholderPlugin";
+import { insertPlaceholder, replacePlaceholderWithImage } from "../../plugin/placeholderPlugin";
 
 // 외부에서 이미지 업로드하면서 메시지 이벤트를 보내주면 받기 위한 함수
 // MenuItem.run에서 참조할 외부 팝업 오픈 함수 예시:

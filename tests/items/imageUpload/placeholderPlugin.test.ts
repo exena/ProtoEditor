@@ -1,6 +1,6 @@
 import { EditorState, Transaction } from "prosemirror-state";
 import { Schema, Node } from "prosemirror-model";
-import { placeholderPlugin, insertPlaceholder, replacePlaceholderWithImage, removePlaceholder, placeholderPluginKey } from "../../../src/items/imageUpload/placeholderPlugin";
+import { placeholderPlugin, insertPlaceholder, replacePlaceholderWithImage, removePlaceholder, placeholderPluginKey } from "../../../src/plugin/placeholderPlugin";
 
 // 테스트용 간단한 schema
 const testSchema = new Schema({

@@ -76,7 +76,7 @@ img.ProseMirror-separator {
   content: "";
   display: inline-block;
   width: 1px;
-  height: 21px;
+  height: 32px;
   background: #ddd;
   margin-right: 8px;
   
@@ -197,6 +197,7 @@ img.ProseMirror-separator {
   cursor: pointer;
   padding: 0;                  /* 가운데 정렬에 불필요한 패딩 제거 */
   border-radius: 4px;          /* 선택사항: 둥근 버튼 느낌 */
+  margin: 0 5px;
 }
 
 .ProseMirror-icon:hover {

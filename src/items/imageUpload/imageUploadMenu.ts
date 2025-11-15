@@ -1,7 +1,7 @@
 import { MenuItem } from "prosemirror-menu";
 import { triggerImageFileInputUpload } from "./imageUploadHandler";
 import { setupImageUploadMessageListener } from "./imageUploadListener";
-import { placeholderPlugin } from "./placeholderPlugin";
+import { placeholderPlugin } from "../../plugin/placeholderPlugin";
 
 export function createImageUploadMenuComponents() {
   const imageUploadMenuItem = new MenuItem({

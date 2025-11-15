@@ -1,15 +1,15 @@
 // items/textColor/index.ts
 import { createPicker } from "./pickerSetup";
 import { createTextColorButton } from "./button";
-import { createTextColorSyncPlugin } from "./textColorSyncPlugin";
-import { createTextButtonColorSyncPlugin } from "./textButtonColorSyncPlugin";
+import { createTextColorPaletteSyncPlugin } from "./textColorPaletteSyncPlugin";
+import { createTextColorButtonSyncPlugin } from "./textColorButtonSyncPlugin";
 
 export function createTextColorComponents() {
   const { colorPicker, pickerContainer } = createPicker();
   const { textColorItem } = createTextColorButton(colorPicker, pickerContainer);
 
-  const palleteSyncPlugin = createTextColorSyncPlugin(colorPicker);
-  const buttonSyncPlugin = createTextButtonColorSyncPlugin(colorPicker);
+  const palleteSyncPlugin = createTextColorPaletteSyncPlugin(colorPicker);
+  const buttonSyncPlugin = createTextColorButtonSyncPlugin();
 
   return { textColorItem, palleteSyncPlugin, buttonSyncPlugin };
 }

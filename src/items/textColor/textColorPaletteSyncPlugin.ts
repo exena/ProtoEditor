@@ -5,7 +5,7 @@ import type ColorPicker from 'tui-color-picker';
 /**
  * selection이 바뀔 때 ColorPicker의 색상을 자동으로 동기화하는 플러그인
  */
-export const createTextColorSyncPlugin = (colorPicker: ColorPicker) =>
+export const createTextColorPaletteSyncPlugin = (colorPicker: ColorPicker) =>
   new Plugin({
     view(_editorView) {
       return {

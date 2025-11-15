@@ -1,9 +1,8 @@
 import { Plugin, PluginView } from 'prosemirror-state';
-import type ColorPicker from 'tui-color-picker';
 // =====================
 // Plugin: selection 변경 감지 → 버튼 색 업데이트 / colorPicker.setColor
 // =====================
-export const createTextButtonColorSyncPlugin = (colorPicker: ColorPicker) => 
+export const createTextColorButtonSyncPlugin = () => 
   new Plugin({
     view(_view): PluginView {
       // view()는 PluginView를 반환. 여기선 plugin-level data를 유지할 필요 없음.
@@ -36,15 +35,6 @@ export const createTextButtonColorSyncPlugin = (colorPicker: ColorPicker) =>
             const iconInDom = document.querySelector('[data-text-color-button]') as HTMLElement | null;
             if (iconInDom) {
               iconInDom.style.color = activeColor || "#000";
-            }
-
-            // colorPicker가 열려있을 때도 동기화
-            if (activeColor) {
-              try {
-                colorPicker.setColor(activeColor);
-              } catch (e) {
-                // 일부 버전에서 setColor signature가 다를 수 있으므로 안전하게 감싸기
-              }
             }
         },
       };

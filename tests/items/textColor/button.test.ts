@@ -2,7 +2,7 @@ import { fireEvent } from "@testing-library/dom";
 import { createTextColorButton } from "../../../src/items/textColor/button";
 import { setupEditorForTextColorTest, createHiddenContainer } from "../../utils/setUpEditorForTextColorTest";
 
-test("clicking text color button opens color picker", () => {
+test("글자색 버튼을 누르면 컬러 팔레트가 나타난다.", () => {
   const picker = createHiddenContainer();
 
   const colorPicker = { on: jest.fn(), off: jest.fn() };

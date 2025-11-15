@@ -3,29 +3,20 @@
  */
 import { EditorState, Plugin, TextSelection } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createTextButtonColorSyncPlugin } from "../../../src/items/textColor/textButtonColorSyncPlugin";
+import { createTextColorPaletteSyncPlugin } from "../../../src/items/textColor/textColorPaletteSyncPlugin";
 import { testTextSchema } from "../../utils/setUpEditorForTextColorTest";
 
-describe("createTextButtonColorSyncPlugin", () => {
+describe("createTextColorPaletteSyncPlugin", () => {
   let colorPickerMock: any;
   let plugin: Plugin;
-  let button: HTMLElement;
   let view: EditorView;
 
   beforeEach(() => {
     // --- colorPicker mock
     colorPickerMock = { setColor: jest.fn() };
 
-    // --- 테스트용 버튼 DOM 추가
-    button = document.createElement("span");
-    button.dataset.textColorButton = "true";
-    button.style.color = "#00ff00";
-    // 식별자: 플러그인에서 버튼을 찾기 위해 data 속성 추가
-    button.setAttribute("data-text-color-button", "1");
-    document.body.appendChild(button);
-
     // --- plugin 생성
-    plugin = createTextButtonColorSyncPlugin(colorPickerMock);
+    plugin = createTextColorPaletteSyncPlugin(colorPickerMock);
 
     // --- 초기 상태 (검정 텍스트)
     const state = EditorState.create({
@@ -68,8 +59,6 @@ describe("createTextButtonColorSyncPlugin", () => {
     pluginView.update!(view, oldstate);   // selection 변경 전달
 
     // --- 검증
-    const button = document.querySelector("[data-text-color-button]") as HTMLElement;
-    expect(button.style.color).toBe("rgb(255, 0, 0)"); // 버튼 색 업데이트 확인
     expect(colorPickerMock.setColor).toHaveBeenCalledWith("rgb(255, 0, 0)"); // colorPicker 동기화 확인
   });
 

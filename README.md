@@ -14,6 +14,9 @@
 - [X]  취소선
 - [x]  이미지 삽입 구현하기
 - [x]  이미지 POST 메서드로 업로드하고 URL 받아오기
+- [x]  글 정렬
+- [x]  표 삽입
+- [ ]  표 조작
 
 ### 미리보기
 [CodeSandbox.io](https://codesandbox.io/p/github/exena/ProtoEditor/main?import=true)

@@ -20,7 +20,7 @@ export function createCustomMenu(schema: Schema) {
   const { imageUploadMenuItem, placeholderPlugin } = createImageUploadMenuComponents();
 
   // === 메뉴 묶음 ===
-  const customMenu = [[bold, italic, strike, headingDropdown, textColorItem, imageUploadMenuItem]]
+  const customMenu = [[headingDropdown, bold, italic, strike, textColorItem, imageUploadMenuItem]]
 
   // const menu = buildMenuItems(mySchema);
   // menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);

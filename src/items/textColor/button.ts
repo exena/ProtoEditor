@@ -1,6 +1,6 @@
 import { MenuItem } from "prosemirror-menu";
 import { EditorView } from "prosemirror-view";
-import { setTextColor } from "./setTextColor";
+import { setTextColor } from "../../commands/setTextColor";
 
 export function createTextColorButton(colorPicker: any, pickerContainer: HTMLElement) {
 

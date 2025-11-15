@@ -1,0 +1,13 @@
+.ProseMirror table {
+  border-collapse: collapse;
+  min-width: 200px;
+}
+.ProseMirror td, .ProseMirror th {
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+  min-width: 50px;
+}
+.ProseMirror th {
+  background: #f4f4f4;
+  font-weight: bold;
+}

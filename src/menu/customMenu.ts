@@ -7,7 +7,9 @@ import {
 } from "../items"
 import { createTextColorComponents } from "../items/textColor";
 import { createImageUploadMenuComponents } from "../items/imageUpload/imageUploadMenu";
-import { MenuItem } from "prosemirror-menu";
+import { tableEditing } from "prosemirror-tables";
+import { insertTableItem } from "../items/insertTable/insertTableItem";
+import { alignCenterItem, alignLeftItem, alignRightItem } from "../items/textAlign/alignTextItems";
 
 export function createCustomMenu(schema: Schema) {
   const { marks } = schema;
@@ -21,13 +23,15 @@ export function createCustomMenu(schema: Schema) {
   const { imageUploadMenuItem, placeholderPlugin } = createImageUploadMenuComponents();
 
   // === 메뉴 묶음 ===
-  const customMenu = [[headingDropdown, bold, italic, strike, textColorItem, ], [imageUploadMenuItem, ]]
+  const customMenu = [[headingDropdown, bold, italic, strike, textColorItem, ], 
+                      [imageUploadMenuItem, insertTableItem, ], 
+                      [alignLeftItem, alignCenterItem, alignRightItem, ]]
 
   // const menu = buildMenuItems(mySchema);
   // menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);
   // const customMenu = menu.fullMenu;
 
-  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin];
+  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin, tableEditing()];
 
   return { customMenu, plugins };
 }

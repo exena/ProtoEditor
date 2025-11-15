@@ -1,5 +1,5 @@
 import { EditorState, TextSelection } from "prosemirror-state";
-import { setTextColor } from "../../../src/items/textColor/setTextColor";
+import { setTextColor } from "../../../src/commands/setTextColor";
 import { testTextSchema } from "../../utils/setUpEditorForTextColorTest";
 
 test("setTextColor가 dispatch를 호출한다", () => {

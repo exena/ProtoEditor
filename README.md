@@ -66,3 +66,22 @@ window.openPopupImageUpload
 
 [ProseMirror](https://prosemirror.net/)
 
+### Setup & Develop
+1. 프로젝트 클론, 라이브러리 설치
+```
+$ git clone https://github.com/exena/ProtoEditor.git
+$ npm install
+```
+- 노드가 설치되어 있어야 합니다. (개발된 버전인 v22 이전 버전의 경우 에러가 생길 수 있습니다.)
+
+2. 실행, 빌드
+```
+$ npm run dev
+$ npm run build
+```
+
+3. 테스트 실행
+```
+$ npx jest
+```
+

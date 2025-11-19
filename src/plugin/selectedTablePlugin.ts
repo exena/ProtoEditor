@@ -25,10 +25,6 @@ export const selectedTablePlugin = new Plugin({
         selectedPos = null;
       }
 
-      // docChanged가 있어도 selectedPos는 그대로 둔다.
-      // (이 전략에서는 테이블 pos가 그대로 유지된다고 믿고 감)
-      // 필요하면 mapping 적용도 가능하지만 1번 전략에서는 고정해도 됨.
-
       return { selectedPos };
     },
   },

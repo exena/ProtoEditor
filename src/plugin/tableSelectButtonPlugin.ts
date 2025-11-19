@@ -1,16 +1,15 @@
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import { selectedTablePluginKey } from "./selectedTablePlugin";
 
-export const tableOverlayPluginKey = new PluginKey("tableOverlayPlugin");
+export const tableSelectButtonPluginKey = new PluginKey("tableOverlayPlugin");
 
-export const tableOverlayPlugin = new Plugin({
-  key: tableOverlayPluginKey,
+export const tableSelectButtonPlugin = new Plugin({
+  key: tableSelectButtonPluginKey,
 
   view(editorView) {
     const buttons = new Map(); // pos -> button
 
     const container = editorView.dom.parentElement; // 에디터 래퍼
-    const editor = editorView.dom;
 
     return {
       update(view) {
@@ -46,11 +45,11 @@ export const tableOverlayPlugin = new Plugin({
 
           // 위치 계산
           const rect = tableDOM.getBoundingClientRect();
-          const editorRect = editor.getBoundingClientRect();
+          const containerRect = container!.getBoundingClientRect();
 
           btn.style.position = "absolute";
-          btn.style.left = editorRect.left - container!.getBoundingClientRect().left + "px";
-          btn.style.top = rect.top - container!.getBoundingClientRect().top + "px";
+          btn.style.left = `${rect.left - containerRect.left}px`;
+          btn.style.top  = `${rect.top  - containerRect.top}px`;
         });
       },
 

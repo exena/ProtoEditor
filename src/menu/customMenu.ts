@@ -10,7 +10,7 @@ import { createImageUploadMenuComponents } from "../items/imageUpload/imageUploa
 import { tableEditing } from "prosemirror-tables";
 import { insertTableItem } from "../items/insertTable/insertTableItem";
 import { alignCenterItem, alignLeftItem, alignRightItem } from "../items/textAlign/alignTextItems";
-import { tableOverlayPlugin } from "../plugin/tableOverlayPlugin";
+import { tableSelectButtonPlugin } from "../plugin/tableSelectButtonPlugin";
 import { selectedTablePlugin } from "../plugin/selectedTablePlugin";
 
 export function createCustomMenu(schema: Schema) {
@@ -33,7 +33,7 @@ export function createCustomMenu(schema: Schema) {
   // menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);
   // const customMenu = menu.fullMenu;
 
-  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin, tableEditing(), tableOverlayPlugin, selectedTablePlugin];
+  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin, tableEditing(), tableSelectButtonPlugin, selectedTablePlugin];
 
   return { customMenu, plugins };
 }

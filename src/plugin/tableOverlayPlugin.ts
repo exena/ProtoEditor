@@ -1,63 +1,62 @@
-import { Plugin, PluginKey } from "prosemirror-state";
-import { NodeSelection } from "prosemirror-state";
+import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
+import { selectedTablePluginKey } from "./selectedTablePlugin";
+
+export const tableOverlayPluginKey = new PluginKey("tableOverlayPlugin");
 
 export const tableOverlayPlugin = new Plugin({
-  key: new PluginKey("tableOverlayPlugin"),
+  key: tableOverlayPluginKey,
 
   view(editorView) {
-    // overlay root
-    const overlay = document.createElement("div");
-    overlay.style.position = "absolute";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "0";
-    overlay.style.height = "0";
-    overlay.style.pointerEvents = "none"; // overlay 자체는 클릭 안됨
+    const buttons = new Map(); // pos -> button
 
-    editorView.dom.parentNode!.appendChild(overlay);
+    const container = editorView.dom.parentElement; // 에디터 래퍼
+    const editor = editorView.dom;
 
     return {
-      update: (view) => {
-        // 매 렌더링 때 기존 overlay 초기화
-        overlay.innerHTML = "";
+      update(view) {
+        const { doc } = view.state;
 
-        const tables = view.dom.querySelectorAll("table");
-        if (!tables || tables.length === 0) return;
+        // 1. 모든 버튼을 제거(재생성)
+        buttons.forEach((btn) => btn.remove());
+        buttons.clear();
 
-        tables.forEach((table) => {
-          const rect = table.getBoundingClientRect();
-          const parentRect = view.dom.getBoundingClientRect();
+        // 2. 테이블 노드를 검색하며 버튼 생성
+        doc.descendants((node, pos) => {
+          if (node.type.name !== "table") return;
 
-          // overlay 내부에 실제 클릭 가능한 영역 추가
-          const box = document.createElement("div");
-          box.style.position = "absolute";
-          box.style.left = rect.left - parentRect.left + "px";
-          box.style.top = rect.top - parentRect.top + "px";
-          box.style.width = rect.width + "px";
-          box.style.height = rect.height + "px";
+          const tableDOM = view.nodeDOM(pos);
+          if (!(tableDOM instanceof HTMLElement)) return;
 
-          box.style.cursor = "pointer";
-          box.style.pointerEvents = "auto"; // 클릭 가능
-          box.style.background = "rgba(0,0,0,0)"; // 완전 투명
+          // 버튼 DOM 생성
+          const btn = document.createElement("div");
+          btn.className = "pm-table-select-button";
+          btn.textContent = "▦"; // 적당한 표기
 
-          // 클릭 시 표 전체 선택
-          box.addEventListener("mousedown", (e) => {
+          // 클릭 시 meta 전송
+          btn.addEventListener("mousedown", (e) => {
             e.preventDefault();
-
-            const pos = view.posAtDOM(table, 0);
-            const tr = view.state.tr.setSelection(
-              NodeSelection.create(view.state.doc, pos)
-            );
-            view.dispatch(tr);
+            const tr1 = view.state.tr.setSelection(NodeSelection.create(view.state.doc, pos)); // 테이블 선택. 실제로는 테이블 측에서 모든 셀 선택으로 전환시킴.
+            view.dispatch(tr1);
+            const tr2 = view.state.tr.setMeta(selectedTablePluginKey, { pos }); // 셀 선택으로 전환이 끝난 후에 신호를 보낸다.
+            view.dispatch(tr2);
           });
 
-          overlay.appendChild(box);
+          container!.appendChild(btn);
+          buttons.set(pos, btn);
+
+          // 위치 계산
+          const rect = tableDOM.getBoundingClientRect();
+          const editorRect = editor.getBoundingClientRect();
+
+          btn.style.position = "absolute";
+          btn.style.left = editorRect.left - container!.getBoundingClientRect().left + "px";
+          btn.style.top = rect.top - container!.getBoundingClientRect().top + "px";
         });
       },
 
       destroy() {
-        overlay.remove();
-      },
+        buttons.forEach((btn) => btn.remove());
+      }
     };
-  },
+  }
 });

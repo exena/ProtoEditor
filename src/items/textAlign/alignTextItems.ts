@@ -1,9 +1,9 @@
 import { MenuItem } from "prosemirror-menu";
-import { setParagraphAlign } from "../../commands/setParagraphAlign";
+import { setNodeAlign } from "../../commands/setNodeAlign";
 
 export const alignLeftItem = new MenuItem({
   title: "왼쪽 정렬",
-  run: (state, dispatch) => setParagraphAlign("left")(state, dispatch),
+  run: (state, dispatch) => setNodeAlign("left")(state, dispatch),
   enable: (_state) => true,
   render: (_view) => {
     const dom = document.createElement("div");
@@ -18,7 +18,7 @@ export const alignLeftItem = new MenuItem({
 
 export const alignCenterItem = new MenuItem({
   title: "가운데 정렬",
-  run: (state, dispatch) => setParagraphAlign("center")(state, dispatch),
+  run: (state, dispatch) => setNodeAlign("center")(state, dispatch),
   enable: (_state) => true,
   render: (_view) => {
     const dom = document.createElement("div");
@@ -33,7 +33,7 @@ export const alignCenterItem = new MenuItem({
 
 export const alignRightItem = new MenuItem({
   title: "오른쪽 정렬",
-  run: (state, dispatch) => setParagraphAlign("right")(state, dispatch),
+  run: (state, dispatch) => setNodeAlign("right")(state, dispatch),
   enable: (_state) => true,
   render: (_view) => {
     const dom = document.createElement("div");

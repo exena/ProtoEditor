@@ -8,27 +8,18 @@ import { DOMParser as ProseMirrorDOMParser, DOMSerializer } from 'prosemirror-mo
 import { exampleSetup } from "prosemirror-example-setup";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import { addListNodes } from "prosemirror-schema-list";
-import { tableNodes } from "prosemirror-tables";
 import { textColorMark } from "./marks/textColorMark";
 import { createCustomMenu } from "./menu/customMenu"
 import { strikeMark } from './marks/strikeMark';
 import { paragraphNode } from './items/textAlign/paragraphNode';
+import { tableSpecs } from './items/insertTable/tableNode';
 
-// 기본 스키마에 list와 table을 추가
+
 let nodes = basicSchema.spec.nodes.update("paragraph", paragraphNode); // text-align 속성 추가
-nodes = addListNodes(nodes, "paragraph block*", "block");
-
-// ✅ tableNodes()로 표 관련 노드 추가
-const tableSpec = tableNodes({
-  tableGroup: "block",
-  cellContent: "block+",
-  cellAttributes: {},
-});
 
 // 1️⃣ 스키마 확장
 const mySchema = new Schema({
-  nodes: nodes.append(tableSpec),
+  nodes: nodes.append(tableSpecs),
   marks: basicSchema.spec.marks.addToEnd("textColor", textColorMark).addToEnd("strike", strikeMark),
 });
 

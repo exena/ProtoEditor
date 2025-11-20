@@ -11,8 +11,8 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import { textColorMark } from "./marks/textColorMark";
 import { createCustomMenu } from "./menu/customMenu"
 import { strikeMark } from './marks/strikeMark';
-import { paragraphNode } from './items/textAlign/paragraphNode';
-import { tableSpecs } from './items/insertTable/tableNode';
+import { paragraphNode } from './nodes/paragraphNode';
+import { tableSpecs } from './nodes/tableNode';
 
 
 let nodes = basicSchema.spec.nodes.update("paragraph", paragraphNode); // text-align 속성 추가

@@ -9,7 +9,7 @@ import { createTextColorComponents } from "../items/textColor";
 import { createImageUploadMenuComponents } from "../items/imageUpload/imageUploadMenu";
 import { tableEditing } from "prosemirror-tables";
 import { insertTableItem } from "../items/insertTable/insertTableItem";
-import { alignCenterItem, alignLeftItem, alignRightItem } from "../items/textAlign/alignTextItems";
+import { alignCenterItem, alignLeftItem, alignRightItem } from "../items/textAlign/alignItems";
 import { tableSelectButtonPlugin } from "../plugin/tableSelectButtonPlugin";
 import { selectedTablePlugin } from "../plugin/selectedTablePlugin";
 

@@ -1,5 +1,5 @@
 import { fireEvent } from "@testing-library/dom";
-import { createTextColorButton } from "../../../src/items/textColor/button";
+import { createTextColorButton } from "../../../src/items/textColor/textColorItem";
 import { setupEditorForTextColorTest, createHiddenContainer } from "../../utils/setUpEditorForTextColorTest";
 
 test("글자색 버튼을 누르면 컬러 팔레트가 나타난다.", () => {

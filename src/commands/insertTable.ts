@@ -1,6 +1,9 @@
 import { EditorState, Transaction, NodeSelection } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import { selectedTablePluginKey } from "../plugin/selectedTablePlugin";
 
 export function insertTable(
+  view: EditorView,
   state: EditorState,
   dispatch?: (tr: Transaction) => void,
   rows = 3,
@@ -8,19 +11,18 @@ export function insertTable(
 ): boolean {
   const { schema } = state;
   const table = createTable(schema, rows, cols);
+  const pos = state.tr.selection.$from.before();
 
   // (1) 테이블 삽입
   let tr = state.tr.replaceSelectionWith(table);
-
-  // (2) 방금 삽입한 'table' 노드의 정확한 시작 위치 계산
-  const pos = tr.selection.$from.before(); 
-  // ✔ replaceSelectionWith 직후 selection은 삽입된 노드 뒤
-  // ✔ $from.before()는 방금 넣은 노드의 시작 위치
-
-  // (3) NodeSelection 적용
-  tr = tr.setSelection(NodeSelection.create(tr.doc, pos)).scrollIntoView();
-
   if (dispatch) dispatch(tr);
+
+  // (2) 테이블 선택 플러그인을 사용.
+  const tr1 = view.state.tr.setSelection(NodeSelection.create(view.state.doc, pos)); // 테이블 선택. 실제로는 테이블 측에서 모든 셀 선택으로 전환시킴.
+  view.dispatch(tr1);
+  const tr2 = view.state.tr.setMeta(selectedTablePluginKey, { pos }); // 셀 선택으로 전환이 끝난 후에 신호를 보낸다.
+  view.dispatch(tr2);
+
   return true;
 }
 

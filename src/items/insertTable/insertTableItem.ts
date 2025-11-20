@@ -5,12 +5,12 @@ export const insertTableItem = new MenuItem({
   title: "표 삽입",
   // label: "📋 표",
   enable: (state) => !!state,
-  run: (state, dispatch, _view) => {
+  run: (state, dispatch, view) => {
     // 필요한 rows, cols 기본값 설정
     const rows = 3;
     const cols = 3;
 
-    insertTable(state, dispatch, rows, cols);
+    insertTable(view, state, dispatch, rows, cols);
   },
   render: (_view) => {
       const dom = document.createElement("div");

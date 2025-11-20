@@ -3,7 +3,7 @@ import { tableNodes } from "prosemirror-tables";
 // ✅ tableNodes()로 표 관련 노드 추가
 const tableSpecs = tableNodes({
   tableGroup: "block",
-  cellContent: "text*",
+  cellContent: "paragraph+",
   cellAttributes: {},
 });
 

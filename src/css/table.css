@@ -11,11 +11,12 @@
   background: #f4f4f4;
   font-weight: bold;
 }
-
+.ProseMirror td p, .ProseMirror td p:first-child {
+  margin: 0;
+}
 .selected-table-block {
   outline: 2px solid #8cf;
 }
-
 .pm-table-select-button {
   cursor: pointer;
 }

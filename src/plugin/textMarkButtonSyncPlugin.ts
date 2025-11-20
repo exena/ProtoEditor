@@ -11,24 +11,29 @@ export const textMarkButtonSyncPlugin = new Plugin({
         // selection이 바뀌지 않으면 패스
         if (view.state.selection.eq(prevState.selection)) return;
 
-        const { from, to } = view.state.selection;
+        const { from, to, empty } = view.state.selection;
         let strong = false;
         let strike = false;
         let italic = false;
 
-        view.state.doc.nodesBetween(from, to, (node) => {
-          node.marks.forEach((mark) => {
-            if (mark.type.name === 'strong') {
-              strong = true;
-            }
-            if (mark.type.name === 'strike') {
-              strike = true;
-            }
-            if (mark.type.name === 'em') {
-              italic = true;
-            }
+        if (!empty) {
+          view.state.doc.nodesBetween(from, to, (node) => {
+            if (!node.isText) return;
+            node.marks.forEach((mark) => {
+              if (mark.type.name === 'strong') strong = true;
+              if (mark.type.name === 'strike') strike = true;
+              if (mark.type.name === 'em') italic = true;
+            });
           });
-        });
+        } else {
+          // 커서 위치: storedMarks 또는 $from.marks()
+          const storedMarks = view.state.storedMarks || view.state.selection.$from.marks();
+          storedMarks.forEach((mark) => {
+              if (mark.type.name === 'strong') strong = true;
+              if (mark.type.name === 'strike') strike = true;
+              if (mark.type.name === 'em') italic = true;
+          });
+        }
 
         const boldIconInDom = document.querySelector('#boldIcon')as HTMLElement | null;
         const strikeIconInDom = document.querySelector('#strikeIcon')as HTMLElement | null;

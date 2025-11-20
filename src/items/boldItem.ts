@@ -10,7 +10,7 @@ export function createBoldItem(strongMark: MarkType) {
       toggleMark(strongMark)(state, dispatch, view);
       const boldIconInDom = document.querySelector('#boldIcon')as HTMLElement | null;
       if (boldIconInDom) {
-        boldIconInDom.style.color = "black";
+        boldIconInDom.style.color = boldIconInDom.style.color === "black" ? "currentColor" : "black";
       }
     },
     enable: (state) => toggleMark(strongMark)(state),

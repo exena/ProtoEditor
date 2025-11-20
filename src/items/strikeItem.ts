@@ -10,7 +10,7 @@ export function createStrikeItem(strikeMark: MarkType) {
       toggleMark(strikeMark)(state, dispatch, view);
       const strikeIconInDom = document.querySelector('#strikeIcon')as HTMLElement | null;
       if (strikeIconInDom) {
-        strikeIconInDom.style.color = "black";
+        strikeIconInDom.style.color = strikeIconInDom.style.color === "black" ? "currentColor" : "black";
       }
     },
     enable: (state) => toggleMark(strikeMark)(state),

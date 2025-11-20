@@ -10,7 +10,7 @@ export function createItalicItem(emMark: MarkType) {
       toggleMark(emMark)(state, dispatch, view);
       const italicIconInDom = document.querySelector('#italicIcon')as HTMLElement | null;
       if (italicIconInDom) {
-        italicIconInDom.style.color = "black";
+        italicIconInDom.style.color = italicIconInDom.style.color === "black" ? "currentColor" : "black";
       }
     },
     enable: (state) => toggleMark(emMark)(state),

@@ -25,8 +25,7 @@ export function createTextColorButton(colorPicker: any, pickerContainer: HTMLEle
           setTextColor(color)(view.state, view.dispatch);
           // 버튼 아이콘 색 즉시 업데이트 (btn이 있으면)
           if (btn) {
-            const icon = btn.querySelector('[data-text-color-button]') as HTMLElement | null;
-            if (icon) icon.style.color = color;
+            btn.style.color = color;
           }
         }
         pickerContainer.style.display = "none";

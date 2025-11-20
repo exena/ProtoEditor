@@ -12,6 +12,7 @@ import { insertTableItem } from "../items/insertTable/insertTableItem";
 import { alignCenterItem, alignLeftItem, alignRightItem } from "../items/textAlign/alignItems";
 import { tableSelectButtonPlugin } from "../plugin/tableSelectButtonPlugin";
 import { selectedTablePlugin } from "../plugin/selectedTablePlugin";
+import { textMarkButtonSyncPlugin } from "../plugin/textMarkButtonSyncPlugin";
 
 export function createCustomMenu(schema: Schema) {
   const { marks } = schema;
@@ -33,7 +34,7 @@ export function createCustomMenu(schema: Schema) {
   // menu.inlineMenu[0].push(textColorItem, imageUploadMenuItem);
   // const customMenu = menu.fullMenu;
 
-  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin, tableEditing(), tableSelectButtonPlugin, selectedTablePlugin];
+  const plugins = [palleteSyncPlugin, buttonSyncPlugin, placeholderPlugin, tableEditing(), tableSelectButtonPlugin, selectedTablePlugin, textMarkButtonSyncPlugin];
 
   return { customMenu, plugins };
 }

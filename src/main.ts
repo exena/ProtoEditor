@@ -13,6 +13,7 @@ import { createCustomMenu } from "./menu/customMenu"
 import { strikeMark } from './marks/strikeMark';
 import { paragraphNode } from './nodes/paragraphNode';
 import { tableSpecs } from './nodes/tableNode';
+import { tableDeleteKeymap } from './keymaps/tableDeleteKeymap';
 
 
 let nodes = basicSchema.spec.nodes.update("paragraph", paragraphNode); // text-align 속성 추가
@@ -35,6 +36,7 @@ const doc = parser.parse(new window.DOMParser().parseFromString(contentElement.v
 const state = EditorState.create({
   doc,
   plugins: [
+    tableDeleteKeymap,
     ...exampleSetup({ schema: mySchema, menuContent: customMenu }),
     ...plugins
   ],

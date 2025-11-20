@@ -11,7 +11,7 @@ function setTableAlign(align: "left" | "center" | "right", tablePos: any) {
 
     if (node && node.type === table) {
       const newAttrs = { ...node.attrs, alignment: align };
-
+      
       if (dispatch) {
         dispatch(
           state.tr.setNodeMarkup(tablePos, table, newAttrs).scrollIntoView()
@@ -19,7 +19,7 @@ function setTableAlign(align: "left" | "center" | "right", tablePos: any) {
       }
       return true;
     }
-
+    
     return false;
   };
 }
@@ -34,7 +34,7 @@ export function setNodeAlign(align: "left" | "center" | "right") {
     const tablePos = getHighlightedTablePos(state);
 
     // 1) TABLE 정렬
-    if (table && tablePos) {
+    if (table && tablePos != null) {
       return setTableAlign(align, tablePos)(state, dispatch);
     }
 
